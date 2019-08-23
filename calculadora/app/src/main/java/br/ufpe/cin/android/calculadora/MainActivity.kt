@@ -13,11 +13,11 @@ class MainActivity : AppCompatActivity() {
     private var equation: String  = ""
     private var result: String = ""
 
-
+   // aqui boti o marcador override para salvar o estado para quando ele destruir a activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+     // parte onde eu seto os listeners de cada botão , de acordo com item 2
         btn_0.setOnClickListener { addToExpression(btn_0.text.toString()) }
         btn_1.setOnClickListener { addToExpression(btn_1.text.toString()) }
         btn_2.setOnClickListener { addToExpression(btn_2.text.toString()) }
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             cleanExpression()
             cleanInfo()
         }
-        btn_Equal.setOnClickListener {
+        btn_Equal.setOnClickListener {// aqui eu decidi botar o tratamento de exceção detalalhada no item 4 , onde eu coloco a msg de erro da expressão
             try {
                 text_calc.setText(eval(text_info.text.toString()).toString())
             }catch (er: Exception) {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    // aqui eu vou recuperar o estado para pegar as informações antes da mudança de configuração
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
