@@ -2,21 +2,74 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
+
+    private var equation: String  = ""
+    private var result: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        btn_0.setOnClickListener { addToExpression(btn_0.text.toString()) }
+        btn_1.setOnClickListener { addToExpression(btn_1.text.toString()) }
+        btn_2.setOnClickListener { addToExpression(btn_2.text.toString()) }
+        btn_3.setOnClickListener { addToExpression(btn_3.text.toString()) }
+        btn_4.setOnClickListener { addToExpression(btn_4.text.toString()) }
+        btn_5.setOnClickListener { addToExpression(btn_5.text.toString()) }
+        btn_6.setOnClickListener { addToExpression(btn_6.text.toString()) }
+        btn_7.setOnClickListener { addToExpression(btn_7.text.toString()) }
+        btn_8.setOnClickListener { addToExpression(btn_8.text.toString()) }
+        btn_9.setOnClickListener { addToExpression(btn_9.text.toString()) }
+        btn_Add.setOnClickListener { addToExpression(btn_Add.text.toString()) }
+        btn_Subtract.setOnClickListener { addToExpression(btn_Subtract.text.toString()) }
+        btn_Multiply.setOnClickListener { addToExpression(btn_Multiply.text.toString()) }
+        btn_Divide.setOnClickListener { addToExpression(btn_Divide.text.toString()) }
+        btn_Power.setOnClickListener { addToExpression(btn_Power.text.toString()) }
+        btn_Dot.setOnClickListener { addToExpression(btn_Dot.text.toString()) }
+        btn_LParen.setOnClickListener { addToExpression(btn_LParen.text.toString()) }
+        btn_RParen.setOnClickListener { addToExpression(btn_RParen.text.toString()) }
+        btn_Clear.setOnClickListener {
+            cleanExpression()
+            cleanInfo()
+        }
+        btn_Equal.setOnClickListener {
+            try {
+                text_calc.setText(eval(text_info.text.toString()).toString())
+            }catch (er: Exception) {
+                Toast.makeText(this, "Hoje jogou Brasil e Bósnia, sabe o que deu? Deu Bósnia!", Toast.LENGTH_LONG).show()
+                cleanExpression()
+            }
+        }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString("equation", text_info.text.toString())
+        outState.putString("result", text_calc.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        text_info.text = savedInstanceState.getString("equation")
+        text_calc.setText(savedInstanceState.getString("result"))
+    }
 
     //Como usar a função:
     // eval("2+2") == 4.0
     // eval("2+3*4") = 14.0
     // eval("(2+3)*4") = 20.0
     //Fonte: https://stackoverflow.com/a/26227947
-    fun eval(str: String): Double {
+    private fun eval(str: String): Double {
         return object : Any() {
             var pos = -1
             var ch: Char = ' '
@@ -102,5 +155,17 @@ class MainActivity : AppCompatActivity() {
                 return x
             }
         }.parse()
+    }
+
+    private fun addToExpression(str: String) {
+        text_info.text = text_info.text.toString() + str
+    }
+
+    private fun cleanExpression() {
+        text_info.text = ""
+    }
+
+    private fun cleanInfo() {
+        text_calc.setText("")
     }
 }
