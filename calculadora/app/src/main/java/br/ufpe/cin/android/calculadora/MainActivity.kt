@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 text_calc.setText(eval(text_info.text.toString()).toString())
             }catch (er: Exception) {
-                Toast.makeText(this, "Hoje jogou Brasil e Bósnia, sabe o que deu? Deu Bósnia!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Expressão invalida, tente novamente", Toast.LENGTH_LONG).show()
                 cleanExpression()
             }
         }
